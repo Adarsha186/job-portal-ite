@@ -20,7 +20,7 @@ function JobServicePage() {
   };
 
   const handleSubmit = async () => {
-    const GITHUB_TOKEN = REACT_APP_GITHUB_TOKEN; // Replace with a valid token
+    const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN; // Replace with a valid token
     const REPO_OWNER = "Adarsha186";
     const REPO_NAME = "innovate_tech_explorers";
     const FILE_PATH = "jobs.json";
