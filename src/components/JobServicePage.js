@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { collection, addDoc } from "firebase/firestore";
+import { db } from "../config/firebase"
 import "../styles/JobServicePage.css";
 
 function JobServicePage() {
@@ -14,87 +16,36 @@ function JobServicePage() {
     payPerHour: "",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setJobDetails({ ...jobDetails, [name]: value });
   };
 
   const handleSubmit = async () => {
-    const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN;
-    const REPO_OWNER = "Adarsha186";
-    const REPO_NAME = "innovate_tech_explorers";
-    const FILE_PATH = "jobs.json";
-  
+    setIsSubmitting(true);
     try {
-      // Step 1: Fetch the current file
-      const fileResponse = await fetch(
-        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
-        {
-          headers: {
-            Authorization: `Bearer ${GITHUB_TOKEN}`,
-          },
-        }
-      );
-  
-      if (!fileResponse.ok) {
-        throw new Error(`Failed to fetch current jobs file. Status: ${fileResponse.status}`);
-      }
-  
-      const fileData = await fileResponse.json();
-      const { sha, content } = fileData;
-      console.log("hello")
-      // Decode the current content
-      let currentJobs = [];
-      if (content) {
-        const decodedContent = atob(content);
-        try {
-          currentJobs = JSON.parse(decodedContent.trim() || "[]");
-        } catch (error) {
-          console.warn("Failed to parse existing JSON. Assuming empty array.");
-          currentJobs = [];
-        }
-      }
-  
-      // Step 2: Append new job
-      const updatedJobs = [...currentJobs, jobDetails];
-  
-      // Encode updated content to Base64 using the polyfill
-      const updatedContent = base64Encode(JSON.stringify(updatedJobs, null, 2));
-  
-      // Step 3: Update the file
-      const updateResponse = await fetch(
-        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
-        {
-          method: "PUT",
-          headers: {
-            Authorization: `Bearer ${GITHUB_TOKEN}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            message: "Added a new job entry",
-            content: updatedContent,
-            sha,
-          }),
-        }
-      );
-  
-      if (!updateResponse.ok) {
-        throw new Error("Failed to update the jobs file in GitHub.");
-      }
-  
-      alert("Job added successfully!");
+      await addDoc(collection(db, "jobs"), jobDetails); // "jobs" is the Firestore collection name
+      alert("Job posted successfully!");
+      setJobDetails({
+        title: "",
+        description: "",
+        location: "",
+        email: "",
+        jobType: "",
+        workNature: "",
+        clientName: "",
+        jobDuration: "",
+        payPerHour: "",
+      });
     } catch (error) {
-      console.error("Error:", error.message);
-      alert(error.message);
+      console.error("Error adding document: ", error);
+      alert("Failed to post the job. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   };
-  
-  // Polyfill for Base64 encoding
-  const base64Encode = (str) => {
-    return btoa(unescape(encodeURIComponent(str)));
-  };
-  
-  
 
   return (
     <div className="page-container">
@@ -240,8 +191,8 @@ function JobServicePage() {
             required
           />
 
-          <button type="submit" className="form-button">
-            Submit
+          <button type="submit" className="form-button" disabled={isSubmitting}>
+            {isSubmitting ? "Submitting..." : "Submit"}
           </button>
         </form>
       </div>
