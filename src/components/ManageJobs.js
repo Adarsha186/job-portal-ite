@@ -41,7 +41,16 @@ function ManageJobs() {
 
   return (
     <div className="page-container">
-      <h2 className="form-title">Manage Jobs</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="form-title">Manage Jobs</h2>
+        {/* Back to Home Button */}
+        <button
+          className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-400 transition"
+          onClick={() => navigate("/job-portal-ite")} // Navigate back to home page
+        >
+          Back to Home
+        </button>
+      </div>
       {loading ? (
         <p>Loading...</p>
       ) : jobs.length > 0 ? (
