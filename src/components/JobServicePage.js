@@ -42,7 +42,7 @@ function JobServicePage() {
   
       const fileData = await fileResponse.json();
       const { sha, content } = fileData;
-  
+      console.log("hello")
       // Decode the current content
       let currentJobs = [];
       if (content) {
