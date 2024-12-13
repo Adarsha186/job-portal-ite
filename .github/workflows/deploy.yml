@@ -31,3 +31,8 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./build
+
+    - name: Debug Environment Variables
+      env:
+        REACT_APP_GITHUB_TOKEN: ${{ secrets.REACT_APP_GITHUB_TOKEN }}
+      run: echo "$REACT_APP_GITHUB_TOKEN"
