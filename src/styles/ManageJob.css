@@ -1,0 +1,78 @@
+.page-container {
+    min-height: 100vh;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .form-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  
+  
+  th, td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #4a5568; /* Row separator */
+  }
+  
+  tr:nth-child(even) {
+    background-color: #2c3345; /* Alternating row color */
+  }
+  
+  tr:hover {
+    background-color: #4a5568; /* Highlight row on hover */
+  }
+  
+  th {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  
+  td {
+    font-size: 14px;
+  }
+  
+  button {
+    padding: 8px 12px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    opacity: 0.9;
+  }
+  
+  button:first-child {
+    background-color: #3182ce; /* Blue */
+    color: #fff;
+    margin-right: 8px;
+  }
+  
+  button:first-child:hover {
+    background-color: #63b3ed; /* Lighter blue */
+  }
+  
+  button:last-child {
+    background-color: #e53e3e; /* Red */
+    color: #fff;
+  }
+  
+  button:last-child:hover {
+    background-color: #f56565; /* Lighter red */
+  }
+  
